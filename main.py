@@ -18,7 +18,7 @@ def getMessage():
 @server.route("/")
 def webhook():
    bot.remove_webhook()
-   bot.set_webhook(url='<HEROKU Web URL>' + TELEGRAM_BOT_TOKEN)
+   bot.set_webhook(url='https://reportstr.herokuapp.com/' + TELEGRAM_BOT_TOKEN)
    return "!", 200
 
 @bot.message_handler(commands=['start'])
@@ -50,9 +50,5 @@ def reportActivity(message):
     currentWeek = datetime.now().isocalendar()[1]
     add_attendance(currentWeek, message.from_user)
 
-def start_bot():
-    logger("Bot has started.")
-    bot.polling()
-
 if __name__ == "__main__":
-   bot.run(host="0.0.0.0", port=int(os.environ.get('PORT', 5000)))
+   server.run(host="0.0.0.0", port=int(os.environ.get('PORT', 5000)))

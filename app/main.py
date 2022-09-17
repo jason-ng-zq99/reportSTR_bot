@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, request
 from app.config import TELEGRAM_BOT_TOKEN
 from app.messages import help_message
 from app.utils import logger
@@ -8,6 +8,18 @@ import telebot
 
 bot = telebot.TeleBot(TELEGRAM_BOT_TOKEN)
 app = Flask(__name__)
+
+@bot.route('/' + TELEGRAM_BOT_TOKEN, methods=['POST'])
+def getMessage():
+   bot.process_new_updates([telebot.types.Update.de_json(request.stream.read().decode("utf-8"))])
+   return "!", 200
+@bot.route("/")
+def webhook():
+   bot.remove_webhook()
+   bot.set_webhook(url='<HEROKU Web URL>' + TELEGRAM_BOT_TOKEN)
+   return "!", 200
+if __name__ == "__main__":
+   bot.run(host="0.0.0.0", port=int(os.environ.get('PORT', 5000)))
 
 @bot.message_handler(commands=['start', 'help'])
 def help(message):

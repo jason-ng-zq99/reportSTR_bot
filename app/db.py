@@ -1,7 +1,7 @@
 from datetime import datetime
 from firebase_admin import credentials, firestore, initialize_app
 from time import time
-import config
+import app.config as config
 
 cred = credentials.Certificate({
         "type": config.DB_TYPE,

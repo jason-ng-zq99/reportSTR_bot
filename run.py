@@ -1,4 +1,4 @@
-from main import app
+from main import bot
  
 if __name__ == "__main__":
-  app.start_bot()
+  bot.start_bot()

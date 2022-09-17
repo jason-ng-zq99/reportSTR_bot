@@ -1,4 +1,5 @@
-from app.main import app
+from app.main import app, start_bot
  
 if __name__ == "__main__":
   app.run()
+  start_bot()

@@ -10,7 +10,7 @@ import os
 bot = telebot.TeleBot(TELEGRAM_BOT_TOKEN)
 server = Flask(__name__)
 
-@server.route('/' + TELEGRAM_BOT_TOKEN, methods=['POST'])
+@server.route(f'/{TELEGRAM_BOT_TOKEN}', methods=['POST'])
 def getMessage():
    bot.process_new_updates([telebot.types.Update.de_json(request.stream.read().decode("utf-8"))])
    return "!", 200

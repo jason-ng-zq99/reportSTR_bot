@@ -1,1 +1,1 @@
-web: gunicorn run:bot
+web: gunicorn run

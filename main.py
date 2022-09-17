@@ -18,7 +18,7 @@ def getMessage():
 @server.route("/")
 def webhook():
    bot.remove_webhook()
-   bot.set_webhook(url='https://reportstr.herokuapp.com/' + TELEGRAM_BOT_TOKEN)
+   bot.set_webhook(url=f'https://reportstr.herokuapp.com/{TELEGRAM_BOT_TOKEN}')
    return "!", 200
 
 @bot.message_handler(commands=['start'])

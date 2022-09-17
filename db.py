@@ -1,9 +1,9 @@
+from datetime import datetime
 from firebase_admin import credentials, firestore, initialize_app
 from time import time
 import config
 
-cred = credentials.Certificate(
-    {
+cred = credentials.Certificate({
         "type": config.DB_TYPE,
         "project_id": config.DB_PROJECT_ID,
         "private_key_id": config.DB_PRIVATE_KEY_ID,
@@ -26,5 +26,20 @@ def add_participant(participant):
         "name" : participant.username,
         "registered_date" : time(),
         "last_update_time" : time(),
+    })
+    
+    currentWeek = datetime.now().isocalendar()[1]
+    doc_ref = db.collection('WeeklyAttendance').document(str(currentWeek)).collection('CompletedParticipants')
+    doc_ref.set({
+        "participantID" : str(participant.id),
+        "completedTimes" : 0
+    })
+
+def add_attendance(week, participant, times=1):
+    doc_ref = db.collection('WeeklyAttendance').document(week).collection('CompletedParticipants').document(participant.id)
+    currentCompletedTimes = doc_ref.get().to_dict()['completedTimes']
+
+    doc_ref.update({
+        "completedTimes" : currentCompletedTimes + times
     })
 

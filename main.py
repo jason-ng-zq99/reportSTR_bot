@@ -1,9 +1,9 @@
-from tracemalloc import start
 from flask import Flask
 from config import TELEGRAM_BOT_TOKEN
 from messages import help_message
 from utils import logger
-from db import add_participant
+from db import add_attendance, add_participant
+from datetime import datetime
 import telebot
 
 bot = telebot.TeleBot(TELEGRAM_BOT_TOKEN)
@@ -13,9 +13,9 @@ server = Flask(__name__)
 def help(message):
     bot.reply_to(message, help_message)
     markup = telebot.types.ReplyKeyboardMarkup(row_width=2)
-    itembtn1 = telebot.types.KeyboardButton('/help')
+    itembtn1 = telebot.types.KeyboardButton('/reportactivity')
     itembtn2 = telebot.types.KeyboardButton('/register')
-    itembtn3 = telebot.types.KeyboardButton('/update')
+    itembtn3 = telebot.types.KeyboardButton('/showleaderboard')
     itembtn4 = telebot.types.KeyboardButton('/quit')
     markup.add(itembtn1, itembtn2, itembtn3, itembtn4)
     bot.send_message(message.chat.id, "Choose one command:", reply_markup=markup)
@@ -32,6 +32,11 @@ def register(message):
     add_participant(registering_user)
     logger(f"Successfully registered {registering_user.username}")
     bot.reply_to(message, f"You have been successfully registered, {registering_user.username}.")
+
+@bot.message_handler(commands=['reportactivity'])
+def reportActivity(message):
+    currentWeek = datetime.now().isocalendar()[1]
+    add_attendance(currentWeek, message.from_user)
 
 def start_bot():
     print("Bot has started.")

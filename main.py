@@ -1,8 +1,8 @@
 from flask import Flask, request
-from app.config import TELEGRAM_BOT_TOKEN
-from app.messages import help_message
-from app.utils import logger
-from app.db import add_attendance, add_participant
+from config import TELEGRAM_BOT_TOKEN
+from messages import help_message
+from utils import logger
+from db import add_attendance, add_participant
 from datetime import datetime
 import telebot
 import os

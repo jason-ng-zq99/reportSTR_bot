@@ -1,5 +1,5 @@
 import sys
-from app.config import IS_LOCAL
+from config import IS_LOCAL
 from datetime import datetime
 
 def logger(message):

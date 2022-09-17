@@ -41,5 +41,4 @@ def reportActivity(message):
 def start_bot():
     print("Bot has started.")
     bot.polling()
-
-start_bot()
+    

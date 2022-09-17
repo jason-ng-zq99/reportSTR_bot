@@ -7,7 +7,7 @@ from datetime import datetime
 import telebot
 
 bot = telebot.TeleBot(TELEGRAM_BOT_TOKEN)
-server = Flask(__name__)
+app = Flask(__name__)
 
 @bot.message_handler(commands=['start', 'help'])
 def help(message):

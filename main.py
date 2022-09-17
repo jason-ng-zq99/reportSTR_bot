@@ -8,20 +8,21 @@ import telebot
 import os
 
 bot = telebot.TeleBot(TELEGRAM_BOT_TOKEN)
-app = Flask(__name__)
+server = Flask(__name__)
 
-@app.route('/' + TELEGRAM_BOT_TOKEN, methods=['POST'])
+@server.route('/' + TELEGRAM_BOT_TOKEN, methods=['POST'])
 def getMessage():
    bot.process_new_updates([telebot.types.Update.de_json(request.stream.read().decode("utf-8"))])
    return "!", 200
-@app.route("/")
+
+@server.route("/")
 def webhook():
    bot.remove_webhook()
    bot.set_webhook(url='<HEROKU Web URL>' + TELEGRAM_BOT_TOKEN)
    return "!", 200
 
-@bot.message_handler(commands=['start', 'help'])
-def help(message):
+@bot.message_handler(commands=['start'])
+def start(message):
     bot.reply_to(message, help_message)
     markup = telebot.types.ReplyKeyboardMarkup(row_width=2)
     itembtn1 = telebot.types.KeyboardButton('/reportactivity')

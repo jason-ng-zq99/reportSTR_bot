@@ -39,6 +39,6 @@ def reportActivity(message):
     add_attendance(currentWeek, message.from_user)
 
 def start_bot():
-    print("Bot has started.")
+    logger("Bot has started.")
     bot.polling()
     

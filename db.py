@@ -32,6 +32,7 @@ def add_participant(participant):
     doc_ref = db.collection('WeeklyAttendance').document(str(currentWeek)).collection('AttendanceList').document(str(participant.id))
     doc_ref.set({
         "participantId" : str(participant.id),
+        "participantName" : participant.username,
         "completedTimes" : 0
     })
 

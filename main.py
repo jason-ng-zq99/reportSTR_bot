@@ -1,7 +1,7 @@
 from typing import final
 from flask import Flask
 from config import TELEGRAM_BOT_TOKEN
-from messages import HELP_MESSAGE, EMPTY_LEADERBOARD_MESSAGE
+from messages import HELP_MESSAGE, EMPTY_LEADERBOARD_MESSAGE, LEADERBOARD_MESSAGE_START, SUCCESSFUL_REPORTING_MESSAGE
 from utils import convertFromGreenwichToSingaporeTime, getWeekFromDateObject, logger, createLeaderboardString
 from db import add_attendance, add_participant, get_current_week_leaderboard
 from datetime import datetime
@@ -41,7 +41,8 @@ def reportActivity(message):
     currentWeek = getWeekFromDateObject(currentSingaporeTime)
     add_attendance(currentWeek, message.from_user)
 
-    bot.reply_to(message, "You have successfully added an activity.\nClick /showleaderboard to check where you are.")
+    bot.reply_to(message, SUCCESSFUL_REPORTING_MESSAGE)
+    logger(f"Successfully added an activity for {message.from_user.username}")
 
 @bot.message_handler(commands=['showleaderboard'])
 def showleaderboard(message):
@@ -50,10 +51,11 @@ def showleaderboard(message):
         bot.reply_to(message, EMPTY_LEADERBOARD_MESSAGE)
         return 
     
-    finalString = "This is this week's leaderboard. How did you do?\n\n"
+    finalString = LEADERBOARD_MESSAGE_START
     for row in currentWeekLeaderboard:
         finalString += createLeaderboardString(row)
     bot.reply_to(message, finalString)
+    logger(f"Successfully shown leaderboard for {message.from_user.username}")
 
 def start_bot():
     print("Bot has started.")

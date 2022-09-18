@@ -46,7 +46,14 @@ def get_all_participants():
     return doc_ref.get().to_dict()
 
 def add_attendance(week, participant, times=1):
-    doc_ref = db.collection('WeeklyAttendance').document(str(week)).collection('AttendanceList').document(str(participant.id))
+    doc_ref = db.collection('WeeklyAttendance').document(str(week))
+    if not doc_ref.get().exists:
+        doc_ref.set({
+            "week": week
+        })
+
+    doc_ref = doc_ref.collection('AttendanceList').document(str(participant.id))
+    
     if not doc_ref.get().exists:
         doc_ref.set({
             "participantId" : str(participant.id),

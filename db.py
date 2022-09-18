@@ -43,7 +43,7 @@ def get_all_participants():
 
 def add_attendance(week, participant, times=1):
     doc_ref = db.collection('WeeklyAttendance').document(str(week)).collection('AttendanceList').document(str(participant.id))
-    if not doc_ref.exists:
+    if not doc_ref.get().exists:
         doc_ref.set({
             "participantId" : str(participant.id),
             "participantName" : participant.username,
@@ -63,7 +63,7 @@ def get_current_week_leaderboard():
     currentWeek = getWeekFromDateObject(currentSingaporeTime)
 
     doc_ref = db.collection('WeeklyAttendance').document(str(currentWeek)).collection('AttendanceList')
-    if not doc_ref.exists:
+    if not doc_ref.get().exists:
         return None
 
     doc_ref = doc_ref.stream()

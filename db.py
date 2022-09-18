@@ -30,7 +30,13 @@ def add_participant(participant):
     })
     
     currentSingaporeWeek = convertFromGreenwichToSingaporeTime(datetime.now())
-    doc_ref = db.collection('WeeklyAttendance').document(str(currentSingaporeWeek)).collection('AttendanceList').document(str(participant.id))
+    doc_ref = db.collection('WeeklyAttendance').document(str(currentSingaporeWeek))
+    if not doc_ref.get().exists:
+        doc_ref.set({
+            "week": currentSingaporeWeek
+        })
+    
+    doc_ref = doc_ref.collection('AttendanceList').document(str(participant.id))
     doc_ref.set({
         "participantId" : str(participant.id),
         "participantName" : participant.username,
@@ -53,7 +59,7 @@ def add_attendance(week, participant, times=1):
         })
 
     doc_ref = doc_ref.collection('AttendanceList').document(str(participant.id))
-    
+
     if not doc_ref.get().exists:
         doc_ref.set({
             "participantId" : str(participant.id),

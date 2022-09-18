@@ -6,6 +6,7 @@ from utils import logger, createLeaderboardString
 from db import add_attendance, add_participant, get_current_week_leaderboard
 from datetime import datetime
 import telebot
+import os
 
 bot = telebot.TeleBot(TELEGRAM_BOT_TOKEN)
 server = Flask(__name__)
@@ -53,6 +54,7 @@ def showleaderboard(message):
 def start_bot():
     print("Bot has started.")
     bot.polling()
-    server.run()
+    portNum = int(os.environ.get('PORT', 5001))
+    server.run(port=portNum, host='0.0.0.0')
 
 start_bot()

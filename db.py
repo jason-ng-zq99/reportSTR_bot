@@ -62,11 +62,11 @@ def get_current_week_leaderboard():
     currentSingaporeTime = convertFromGreenwichToSingaporeTime(currentGreenwichTime)
     currentWeek = getWeekFromDateObject(currentSingaporeTime)
 
-    doc_ref = db.collection('WeeklyAttendance').document(str(currentWeek)).collection('AttendanceList')
+    doc_ref = db.collection('WeeklyAttendance').document(str(currentWeek))
     if not doc_ref.get().exists:
         return None
 
-    doc_ref = doc_ref.stream()
+    doc_ref = doc_ref.collection('AttendanceList').stream()
     attendanceList = []
     for rows in doc_ref:
         tempDict = rows.to_dict()

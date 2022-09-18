@@ -29,7 +29,7 @@ def add_participant(participant):
         "last_update_time" : time(),
     })
     
-    currentSingaporeWeek = convertFromGreenwichToSingaporeTime(datetime.now())
+    currentSingaporeWeek = getWeekFromDateObject(convertFromGreenwichToSingaporeTime(datetime.now()))
     doc_ref = db.collection('WeeklyAttendance').document(str(currentSingaporeWeek))
     if not doc_ref.get().exists:
         doc_ref.set({

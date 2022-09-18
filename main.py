@@ -44,7 +44,7 @@ def reportActivity(message):
 @bot.message_handler(commands=['showleaderboard'])
 def showleaderboard(message):
     currentWeekLeaderboard = get_current_week_leaderboard()
-    finalString = "This is this week's leaderboard. How did you do?"
+    finalString = "This is this week's leaderboard. How did you do?\n\n"
     for row in currentWeekLeaderboard:
         finalString += createLeaderboardString(row)
     bot.reply_to(message, finalString)

@@ -39,7 +39,9 @@ def reportActivity(message):
     currentWeek = datetime.now().isocalendar()[1]
     add_attendance(currentWeek, message.from_user)
 
-@bot.message_handler(commands=['/showleaderboard'])
+    bot.reply_to(message, "You have successfully added an activity. Click /showleaderboard to check where you are.")
+
+@bot.message_handler(commands=['showleaderboard'])
 def showleaderboard(message):
     currentWeekLeaderboard = get_current_week_leaderboard()
     finalString = "This is this week's leaderboard. How did you do?"
@@ -47,11 +49,6 @@ def showleaderboard(message):
         finalString += createLeaderboardString(row)
     bot.reply_to(message, finalString)
 
-@bot.message_handler(commands=['/reportactivity'])
-def reportactivity(message):
-    add_attendance()
-
-    bot.reply_to(message, "You have successfully added an activity. Click /showleaderboard to check where you are.")
 
 def start_bot():
     print("Bot has started.")

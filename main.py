@@ -47,6 +47,12 @@ def showleaderboard(message):
         finalString += createLeaderboardString(row)
     bot.reply_to(message, finalString)
 
+@bot.message_handler(commands=['/reportactivity'])
+def reportactivity(message):
+    add_attendance()
+
+    bot.reply_to(message, "You have successfully added an activity. Click /showleaderboard to check where you are.")
+
 def start_bot():
     print("Bot has started.")
     bot.polling()

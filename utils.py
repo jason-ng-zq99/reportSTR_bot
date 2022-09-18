@@ -12,7 +12,7 @@ def logger(message):
 def getWeekFromDateObject(dateObject):
     return dateObject.isocalendar()[1]
 
-def convertFromGreenwichToSingaporeTime(timeObject, format):
+def convertFromGreenwichToSingaporeTime(timeObject):
     return timeObject + timedelta(hours=8)
 
 def createLeaderboardString(personObject):

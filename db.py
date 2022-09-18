@@ -37,6 +37,10 @@ def add_participant(participant):
         "completedTimes" : 0
     })
 
+def is_participant_registered(participant):
+    doc_ref = db.collection('Participants').document(str(participant.id))
+    return doc_ref.get().exists
+
 def get_all_participants():
     doc_ref = db.collection('Participants').stream()
     return doc_ref.get().to_dict()

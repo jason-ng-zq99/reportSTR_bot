@@ -3,7 +3,7 @@ from flask import Flask
 from config import TELEGRAM_BOT_TOKEN
 from messages import HELP_MESSAGE, EMPTY_LEADERBOARD_MESSAGE, LEADERBOARD_MESSAGE_START, SUCCESSFUL_REPORTING_MESSAGE
 from utils import convertFromGreenwichToSingaporeTime, getWeekFromDateObject, logger, createLeaderboardString
-from db import add_attendance, add_participant, get_current_week_leaderboard
+from db import is_participant_registered, add_attendance, add_participant, get_current_week_leaderboard
 from datetime import datetime
 import telebot
 import os
@@ -31,6 +31,11 @@ def quit_message(message):
 @bot.message_handler(commands=['register'])
 def register(message):
     registering_user = message.from_user
+    if is_participant_registered(registering_user):
+        logger(f"{registering_user.username} tried to register again.")
+        bot.reply_to(message, f"You have already been registered, {registering_user.username}.")
+        return
+
     add_participant(registering_user)
     logger(f"Successfully registered {registering_user.username}")
     bot.reply_to(message, f"You have been successfully registered, {registering_user.username}.")

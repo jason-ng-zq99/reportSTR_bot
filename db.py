@@ -1,6 +1,6 @@
-from datetime import datetime
 from firebase_admin import credentials, firestore, initialize_app
 from time import time
+from utils import logger, getCurrentWeek
 import config as config
 
 cred = credentials.Certificate({
@@ -28,7 +28,7 @@ def add_participant(participant):
         "last_update_time" : time(),
     })
     
-    currentWeek = datetime.now().isocalendar()[1]
+    currentWeek = getCurrentWeek()
     doc_ref = db.collection('WeeklyAttendance').document(str(currentWeek)).collection('AttendanceList').document(str(participant.id))
     doc_ref.set({
         "participantId" : str(participant.id),
@@ -36,11 +36,31 @@ def add_participant(participant):
         "completedTimes" : 0
     })
 
+def get_all_participants():
+    doc_ref = db.collection('Participants').stream()
+    return doc_ref.get().to_dict()
+
 def add_attendance(week, participant, times=1):
-    doc_ref = db.collection('WeeklyAttendance').document(week).collection('CompletedParticipants').document(str(participant.id))
+    doc_ref = db.collection('WeeklyAttendance').document(str(week)).collection('CompletedParticipants').document(str(participant.id))
     currentCompletedTimes = doc_ref.get().to_dict()['completedTimes']
 
     doc_ref.update({
         "completedTimes" : currentCompletedTimes + times
     })
 
+def get_current_week_leaderboard():
+    currentWeek = getCurrentWeek()
+
+    doc_ref = db.collection('WeeklyAttendance').document(str(currentWeek)).collection('AttendanceList').stream()
+    attendanceList = []
+    for rows in doc_ref:
+        tempDict = rows.to_dict()
+        name = tempDict['participantName']
+        completedTimes = tempDict['completedTimes']
+
+        attendanceList.append({
+            'name': name,
+            "completedTimes": completedTimes
+        })
+
+    return attendanceList

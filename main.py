@@ -1,11 +1,11 @@
-from flask import Flask, request
+from typing import final
+from flask import Flask
 from config import TELEGRAM_BOT_TOKEN
 from messages import help_message
-from utils import logger
-from db import add_attendance, add_participant
+from utils import logger, createLeaderboardString
+from db import add_attendance, add_participant, get_current_week_leaderboard
 from datetime import datetime
 import telebot
-import os
 
 bot = telebot.TeleBot(TELEGRAM_BOT_TOKEN)
 server = Flask(__name__)
@@ -39,9 +39,17 @@ def reportActivity(message):
     currentWeek = datetime.now().isocalendar()[1]
     add_attendance(currentWeek, message.from_user)
 
+@bot.message_handler(commands=['/showleaderboard'])
+def showleaderboard(message):
+    currentWeekLeaderboard = get_current_week_leaderboard()
+    finalString = "This is this week's leaderboard. How did you do?"
+    for row in currentWeekLeaderboard:
+        finalString += createLeaderboardString(row)
+    bot.reply_to(message, finalString)
+
 def start_bot():
     print("Bot has started.")
     bot.polling()
-    server.run(debug=False, port=os.environ.get("PORT", 5000))
+    server.run()
 
 start_bot()

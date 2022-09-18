@@ -8,3 +8,11 @@ def logger(message):
     else: 
         print(f"{message}")
     sys.stdout.flush()
+
+def getCurrentWeek():
+    return datetime.now().isocalendar()[1]
+
+def createLeaderboardString(personObject):
+    name = personObject['name']
+    completedTimes = personObject['completedTimes']
+    return f"{name}:\n" + completedTimes * "🟩 " + (7 - completedTimes) * "🟥 " + "\n\n"

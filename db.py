@@ -29,7 +29,7 @@ def add_participant(participant):
     })
     
     currentWeek = datetime.now().isocalendar()[1]
-    doc_ref = db.collection('WeeklyAttendance').document(str(currentWeek)).collection('CompletedParticipants')
+    doc_ref = db.collection('WeeklyAttendance').document(str(currentWeek)).collection('CompletedParticipants').document(str(currentWeek))
     doc_ref.set({
         "participantID" : str(participant.id),
         "completedTimes" : 0

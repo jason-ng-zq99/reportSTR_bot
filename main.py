@@ -10,17 +10,6 @@ import os
 bot = telebot.TeleBot(TELEGRAM_BOT_TOKEN)
 server = Flask(__name__)
 
-@server.route(f'/{TELEGRAM_BOT_TOKEN}', methods=['POST'])
-def getMessage():
-   bot.process_new_updates([telebot.types.Update.de_json(request.stream.read().decode("utf-8"))])
-   return "!", 200
-
-@server.route("/")
-def webhook():
-   bot.remove_webhook()
-   bot.set_webhook(url=f'https://reportstr.herokuapp.com/{TELEGRAM_BOT_TOKEN}')
-   return "!", 200
-
 @bot.message_handler(commands=['start'])
 def start(message):
     bot.reply_to(message, help_message)
@@ -50,5 +39,8 @@ def reportActivity(message):
     currentWeek = datetime.now().isocalendar()[1]
     add_attendance(currentWeek, message.from_user)
 
-if __name__ == "__main__":
-   server.run(host="0.0.0.0", port=int(os.environ.get('PORT', 5000)))
+def start_bot():
+    print("Bot has started.")
+    bot.polling()
+
+start_bot()

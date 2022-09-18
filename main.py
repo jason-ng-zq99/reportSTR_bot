@@ -1,7 +1,7 @@
 from typing import final
 from flask import Flask
 from config import TELEGRAM_BOT_TOKEN
-from messages import help_message
+from messages import HELP_MESSAGE, EMPTY_LEADERBOARD_MESSAGE
 from utils import convertFromGreenwichToSingaporeTime, getWeekFromDateObject, logger, createLeaderboardString
 from db import add_attendance, add_participant, get_current_week_leaderboard
 from datetime import datetime
@@ -13,7 +13,7 @@ server = Flask(__name__)
 
 @bot.message_handler(commands=['start'])
 def start(message):
-    bot.reply_to(message, help_message)
+    bot.reply_to(message, HELP_MESSAGE)
     markup = telebot.types.ReplyKeyboardMarkup(row_width=2)
     itembtn1 = telebot.types.KeyboardButton('/reportactivity')
     itembtn2 = telebot.types.KeyboardButton('/register')
@@ -47,7 +47,7 @@ def reportActivity(message):
 def showleaderboard(message):
     currentWeekLeaderboard = get_current_week_leaderboard()
     if currentWeekLeaderboard is None:
-        bot.reply_to("No one has reported any activity yet!\nWill you be the first?")
+        bot.reply_to(message, EMPTY_LEADERBOARD_MESSAGE)
         return 
     
     finalString = "This is this week's leaderboard. How did you do?\n\n"

@@ -2,7 +2,7 @@ from typing import final
 from flask import Flask
 from config import TELEGRAM_BOT_TOKEN
 from messages import help_message
-from utils import logger, createLeaderboardString
+from utils import convertFromGreenwichToSingaporeTime, getWeekFromDateObject, logger, createLeaderboardString
 from db import add_attendance, add_participant, get_current_week_leaderboard
 from datetime import datetime
 import telebot
@@ -37,7 +37,8 @@ def register(message):
 
 @bot.message_handler(commands=['reportactivity'])
 def reportActivity(message):
-    currentWeek = datetime.now().isocalendar()[1]
+    currentSingaporeTime = convertFromGreenwichToSingaporeTime(datetime.now())
+    currentWeek = getWeekFromDateObject(currentSingaporeTime)
     add_attendance(currentWeek, message.from_user)
 
     bot.reply_to(message, "You have successfully added an activity. Click /showleaderboard to check where you are.")
@@ -49,7 +50,6 @@ def showleaderboard(message):
     for row in currentWeekLeaderboard:
         finalString += createLeaderboardString(row)
     bot.reply_to(message, finalString)
-
 
 def start_bot():
     print("Bot has started.")

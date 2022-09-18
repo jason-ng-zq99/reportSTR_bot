@@ -1,6 +1,7 @@
+from datetime import datetime
 from firebase_admin import credentials, firestore, initialize_app
 from time import time
-from utils import logger, getCurrentWeek
+from utils import convertFromGreenwichToSingaporeTime, logger, getWeekFromDateObject
 import config as config
 
 cred = credentials.Certificate({
@@ -28,8 +29,8 @@ def add_participant(participant):
         "last_update_time" : time(),
     })
     
-    currentWeek = getCurrentWeek()
-    doc_ref = db.collection('WeeklyAttendance').document(str(currentWeek)).collection('AttendanceList').document(str(participant.id))
+    currentSingaporeWeek = convertFromGreenwichToSingaporeTime(datetime.now())
+    doc_ref = db.collection('WeeklyAttendance').document(str(currentSingaporeWeek)).collection('AttendanceList').document(str(participant.id))
     doc_ref.set({
         "participantId" : str(participant.id),
         "participantName" : participant.username,
@@ -49,7 +50,9 @@ def add_attendance(week, participant, times=1):
     })
 
 def get_current_week_leaderboard():
-    currentWeek = getCurrentWeek()
+    currentGreenwichTime = datetime.now()
+    currentSingaporeTime = convertFromGreenwichToSingaporeTime(currentGreenwichTime)
+    currentWeek = getWeekFromDateObject(currentSingaporeTime)
 
     doc_ref = db.collection('WeeklyAttendance').document(str(currentWeek)).collection('AttendanceList').stream()
     attendanceList = []

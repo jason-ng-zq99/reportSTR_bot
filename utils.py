@@ -1,6 +1,6 @@
 import sys
 from config import IS_LOCAL
-from datetime import datetime
+from datetime import datetime, timedelta
 
 def logger(message):
     if IS_LOCAL:
@@ -9,8 +9,11 @@ def logger(message):
         print(f"{message}")
     sys.stdout.flush()
 
-def getCurrentWeek():
-    return datetime.now().isocalendar()[1]
+def getWeekFromDateObject(dateObject):
+    return dateObject.isocalendar()[1]
+
+def convertFromGreenwichToSingaporeTime(timeObject, format):
+    return timeObject + timedelta(hours=8)
 
 def createLeaderboardString(personObject):
     name = personObject['name']

@@ -42,5 +42,6 @@ def reportActivity(message):
 def start_bot():
     print("Bot has started.")
     bot.polling()
+    server.run(debug=False, port=os.environ.get("PORT", 5000))
 
 start_bot()

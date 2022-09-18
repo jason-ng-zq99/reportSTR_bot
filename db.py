@@ -43,6 +43,14 @@ def get_all_participants():
 
 def add_attendance(week, participant, times=1):
     doc_ref = db.collection('WeeklyAttendance').document(str(week)).collection('AttendanceList').document(str(participant.id))
+    if not doc_ref.exists:
+        doc_ref.set({
+            "participantId" : str(participant.id),
+            "participantName" : participant.username,
+            "completedTimes" : 1
+        })
+        return 
+
     currentCompletedTimes = doc_ref.get().to_dict()['completedTimes']
 
     doc_ref.update({
@@ -54,7 +62,11 @@ def get_current_week_leaderboard():
     currentSingaporeTime = convertFromGreenwichToSingaporeTime(currentGreenwichTime)
     currentWeek = getWeekFromDateObject(currentSingaporeTime)
 
-    doc_ref = db.collection('WeeklyAttendance').document(str(currentWeek)).collection('AttendanceList').stream()
+    doc_ref = db.collection('WeeklyAttendance').document(str(currentWeek)).collection('AttendanceList')
+    if not doc_ref.exists:
+        return None
+
+    doc_ref = doc_ref.stream()
     attendanceList = []
     for rows in doc_ref:
         tempDict = rows.to_dict()

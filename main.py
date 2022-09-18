@@ -41,11 +41,15 @@ def reportActivity(message):
     currentWeek = getWeekFromDateObject(currentSingaporeTime)
     add_attendance(currentWeek, message.from_user)
 
-    bot.reply_to(message, "You have successfully added an activity. Click /showleaderboard to check where you are.")
+    bot.reply_to(message, "You have successfully added an activity.\nClick /showleaderboard to check where you are.")
 
 @bot.message_handler(commands=['showleaderboard'])
 def showleaderboard(message):
     currentWeekLeaderboard = get_current_week_leaderboard()
+    if currentWeekLeaderboard is None:
+        bot.reply_to("No one has reported any activity yet!\nWill you be the first?")
+        return 
+    
     finalString = "This is this week's leaderboard. How did you do?\n\n"
     for row in currentWeekLeaderboard:
         finalString += createLeaderboardString(row)

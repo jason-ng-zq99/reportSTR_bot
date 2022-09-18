@@ -53,8 +53,6 @@ def showleaderboard(message):
 
 def start_bot():
     print("Bot has started.")
-    portNum = int(os.environ.get('PORT', 5001))
-    server.run(port=portNum, host='0.0.0.0')
     bot.polling()
 
 start_bot()

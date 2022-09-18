@@ -18,4 +18,7 @@ def convertFromGreenwichToSingaporeTime(timeObject):
 def createLeaderboardString(personObject):
     name = personObject['name']
     completedTimes = personObject['completedTimes']
-    return f"{name}:\n" + completedTimes * "🟩 " + (7 - completedTimes) * "🟥 " + "\n\n"
+    finalString = f"{name}:\n"
+    finalString += (completedTimes % 7 ) * "🟩 "
+    finalString += (7 - (completedTimes % 7 ) ) * "🟥 " + "\n\n"
+    return finalString

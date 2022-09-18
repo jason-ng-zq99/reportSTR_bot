@@ -41,7 +41,7 @@ def get_all_participants():
     return doc_ref.get().to_dict()
 
 def add_attendance(week, participant, times=1):
-    doc_ref = db.collection('WeeklyAttendance').document(str(week)).collection('CompletedParticipants').document(str(participant.id))
+    doc_ref = db.collection('WeeklyAttendance').document(str(week)).collection('AttendanceList').document(str(participant.id))
     currentCompletedTimes = doc_ref.get().to_dict()['completedTimes']
 
     doc_ref.update({

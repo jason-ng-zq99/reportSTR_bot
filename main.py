@@ -3,7 +3,7 @@ from flask import Flask
 from config import TELEGRAM_BOT_TOKEN, WORKOUT_FOR_THE_WEEK
 from messages import HELP_MESSAGE, EMPTY_LEADERBOARD_MESSAGE, LEADERBOARD_MESSAGE_START, SUCCESSFUL_REPORTING_MESSAGE, NO_RECORD_TO_DELETE_MESSAGE, SUCCESSFUL_DELETE_MESSAGE
 from utils import convertFromGreenwichToSingaporeTime, getWeekFromDateObject, logger, createLeaderboardString
-from db import is_participant_registered, add_attendance, add_participant, get_current_week_leaderboard
+from db import is_participant_registered, add_attendance, add_participant, get_current_week_leaderboard, delete_attendance
 from datetime import datetime
 import telebot
 import os
@@ -63,7 +63,7 @@ def showleaderboard(message):
 def deleteactivity(message):
     currentSingaporeTime = convertFromGreenwichToSingaporeTime(datetime.now())
     currentWeek = getWeekFromDateObject(currentSingaporeTime)
-    is_deleted = deleteactivity(currentWeek, message)
+    is_deleted = delete_attendance(currentWeek, message)
     if not is_deleted:
         bot.reply_to(message, NO_RECORD_TO_DELETE_MESSAGE)
         return

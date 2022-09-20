@@ -1,6 +1,6 @@
 from typing import final
 from flask import Flask
-from config import TELEGRAM_BOT_TOKEN
+from config import TELEGRAM_BOT_TOKEN, WORKOUT_FOR_THE_WEEK
 from messages import HELP_MESSAGE, EMPTY_LEADERBOARD_MESSAGE, LEADERBOARD_MESSAGE_START, SUCCESSFUL_REPORTING_MESSAGE, NO_RECORD_TO_DELETE_MESSAGE, SUCCESSFUL_DELETE_MESSAGE
 from utils import convertFromGreenwichToSingaporeTime, getWeekFromDateObject, logger, createLeaderboardString
 from db import is_participant_registered, add_attendance, add_participant, get_current_week_leaderboard
@@ -59,7 +59,7 @@ def showleaderboard(message):
     bot.reply_to(message, finalString)
     logger(f"Successfully shown leaderboard for {message.from_user.username}")
 
-@bot.message_handler(commands=['deleteactivity']):
+@bot.message_handler(commands=['deleteactivity'])
 def deleteactivity(message):
     currentSingaporeTime = convertFromGreenwichToSingaporeTime(datetime.now())
     currentWeek = getWeekFromDateObject(currentSingaporeTime)
@@ -70,6 +70,10 @@ def deleteactivity(message):
     
     bot.reply_to(message, SUCCESSFUL_DELETE_MESSAGE)
     logger(f"Successfully deleted an activity for {message.from_user.username}.")
+
+@bot.message_handler(commands=['workoutfortheweek'])
+def workoutfortheweek(message):
+    bot.reply_to(message, WORKOUT_FOR_THE_WEEK)
 
 @bot.message_handler(commands=['quit'])
 def quit_message(message):

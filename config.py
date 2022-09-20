@@ -3,11 +3,14 @@ from dotenv import load_dotenv
 
 load_dotenv('.env')
 
-#system
+# system
 IS_LOCAL = os.environ.get("IS_LOCAL")
 TELEGRAM_BOT_TOKEN = os.environ.get('TELEGRAM_BOT_TOKEN')
 
-#db 
+# event
+WORKOUT_FOR_THE_WEEK = os.environ.get("WORKOUT_FOR_THE_WEEK")
+
+# db 
 DB_TYPE = "service_account"
 DB_PROJECT_ID = os.environ.get("DB_PROJECT_ID")
 DB_PRIVATE_KEY_ID = os.environ.get("DB_PRIVATE_KEY_ID")

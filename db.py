@@ -59,7 +59,6 @@ def add_attendance(week, participant, times=1):
         })
 
     doc_ref = doc_ref.collection('AttendanceList').document(str(participant.id))
-
     if not doc_ref.get().exists:
         doc_ref.set({
             "participantId" : str(participant.id),
@@ -73,6 +72,26 @@ def add_attendance(week, participant, times=1):
     doc_ref.update({
         "completedTimes" : currentCompletedTimes + times
     })
+
+def delete_attendance(week, participant, times=1):
+    doc_ref=db.collection('WeeklyAttendance').document(str(week))
+    if not doc_ref.get().exists:
+        return False
+    
+    doc_ref = doc_ref.collection('AttendanceList').document(str(participant.id))
+    if not doc_ref.get().exists:
+        return False
+
+    currentCompletedTimes = doc_ref.get().to_dict()['completedTimes']
+    if currentCompletedTimes < 1:
+        return False
+    
+    doc_ref.update({
+        "completedTimes" : currentCompletedTimes - 1
+    })
+
+    return True
+
 
 def get_current_week_leaderboard():
     currentGreenwichTime = datetime.now()

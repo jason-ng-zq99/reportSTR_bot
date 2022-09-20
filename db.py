@@ -73,21 +73,24 @@ def add_attendance(week, participant, times=1):
         "completedTimes" : currentCompletedTimes + times
     })
 
-def delete_attendance(week, participant, times=1):
+def delete_attendance(message, week, participant, times=1):
     doc_ref=db.collection('WeeklyAttendance').document(str(week))
     if not doc_ref.get().exists:
+        logger(f"{week} has no activities yet..")
         return False
     
     doc_ref = doc_ref.collection('AttendanceList').document(str(participant.id))
     if not doc_ref.get().exists:
+        logger(f"{message.from_user.username} does not have any activity for week {week}.")
         return False
 
     currentCompletedTimes = doc_ref.get().to_dict()['completedTimes']
     if currentCompletedTimes < 1:
+        logger(f"{message.from_user.username} only completed {currentCompletedTimes} workouts this week; unable to delete attendance.")
         return False
     
     doc_ref.update({
-        "completedTimes" : currentCompletedTimes - 1
+        "completedTimes" : currentCompletedTimes - times
     })
 
     return True

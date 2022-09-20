@@ -14,7 +14,7 @@ server = Flask(__name__)
 @bot.message_handler(commands=['start'])
 def start(message):
     bot.reply_to(message, HELP_MESSAGE)
-    markup = telebot.types.ReplyKeyboardMarkup(row_width=3)
+    markup = telebot.types.ReplyKeyboardMarkup(row_width=2)
     itembtn1 = telebot.types.KeyboardButton('/reportactivity')
     itembtn2 = telebot.types.KeyboardButton('/register')
     itembtn3 = telebot.types.KeyboardButton('/showleaderboard')
@@ -63,9 +63,10 @@ def showleaderboard(message):
 def deleteactivity(message):
     currentSingaporeTime = convertFromGreenwichToSingaporeTime(datetime.now())
     currentWeek = getWeekFromDateObject(currentSingaporeTime)
-    is_deleted = delete_attendance(currentWeek, message)
+    is_deleted = delete_attendance(message, currentWeek, message)
     if not is_deleted:
         bot.reply_to(message, NO_RECORD_TO_DELETE_MESSAGE)
+        logger(f"{message.from_user.username} tried to delete an activity when he/she had none for the week.")
         return
     
     bot.reply_to(message, SUCCESSFUL_DELETE_MESSAGE)

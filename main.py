@@ -63,7 +63,7 @@ def showleaderboard(message):
 def deleteactivity(message):
     currentSingaporeTime = convertFromGreenwichToSingaporeTime(datetime.now())
     currentWeek = getWeekFromDateObject(currentSingaporeTime)
-    is_deleted = delete_attendance(message, currentWeek, message)
+    is_deleted = delete_attendance(currentWeek, message.from_user)
     if not is_deleted:
         bot.reply_to(message, NO_RECORD_TO_DELETE_MESSAGE)
         logger(f"{message.from_user.username} tried to delete an activity when he/she had none for the week.")

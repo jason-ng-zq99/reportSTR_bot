@@ -20,5 +20,6 @@ def createLeaderboardString(personObject):
     completedTimes = personObject['completedTimes']
     finalString = f"{name}:\n"
     finalString += (completedTimes * "🟩 ") if (completedTimes < 7) else (7 * "🟩 ")
-    finalString += ((7 - completedTimes) * "🟥 " + "\n\n") if (completedTimes < 7) else ""
+    finalString += ((7 - completedTimes) * "🟥 ") if (completedTimes < 7) else ""
+    finalString += "\n\n"
     return finalString

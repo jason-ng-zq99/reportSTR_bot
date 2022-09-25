@@ -63,14 +63,15 @@ def add_attendance(week, participant, times=1):
         doc_ref.set({
             "participantId" : str(participant.id),
             "participantName" : participant.username,
-            "completedTimes" : 1
+            "completedTimes" : 0
         })
         return 
 
     currentCompletedTimes = doc_ref.get().to_dict()['completedTimes']
+    newCompletedTimes = currentCompletedTimes + times
 
     doc_ref.update({
-        "completedTimes" : currentCompletedTimes + times
+        "completedTimes" : newCompletedTimes if newCompletedTimes <= 7 else 7
     })
 
 def delete_attendance(week, participant, times=1):

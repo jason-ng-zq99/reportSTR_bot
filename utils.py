@@ -1,5 +1,5 @@
 import sys
-from config import IS_LOCAL
+from config import IS_LOCAL, NUMBER_OF_TIMES_A_WEEK
 from datetime import datetime, timedelta
 
 def logger(message):
@@ -19,7 +19,7 @@ def createLeaderboardString(personObject):
     name = personObject['name']
     completedTimes = personObject['completedTimes']
     finalString = f"{name}:\n"
-    finalString += (completedTimes * "🟩 ") if (completedTimes < 7) else (7 * "🟩 ")
-    finalString += ((7 - completedTimes) * "🟥 ") if (completedTimes < 7) else ""
+    finalString += (completedTimes * "🟩 ") if (completedTimes < NUMBER_OF_TIMES_A_WEEK) else (NUMBER_OF_TIMES_A_WEEK * "🟩 ")
+    finalString += ((NUMBER_OF_TIMES_A_WEEK - completedTimes) * "🟥 ") if (completedTimes < NUMBER_OF_TIMES_A_WEEK) else ""
     finalString += "\n\n"
     return finalString

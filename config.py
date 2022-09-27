@@ -9,7 +9,7 @@ TELEGRAM_BOT_TOKEN = os.environ.get('TELEGRAM_BOT_TOKEN')
 
 # event
 WORKOUT_FOR_THE_WEEK = os.environ.get("WORKOUT_FOR_THE_WEEK")
-NUMBER_OF_TIMES_A_WEEK = os.environ.get("NUMBER_OF_TIMES_A_WEEK", 7)
+NUMBER_OF_TIMES_A_WEEK = int(os.environ.get("NUMBER_OF_TIMES_A_WEEK", 7))
 
 # db 
 DB_TYPE = "service_account"

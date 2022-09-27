@@ -63,7 +63,7 @@ def add_attendance(week, participant, times=1):
         doc_ref.set({
             "participantId" : str(participant.id),
             "participantName" : participant.username,
-            "completedTimes" : 0
+            "completedTimes" : 1
         })
         return 
 

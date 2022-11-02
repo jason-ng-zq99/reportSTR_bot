@@ -16,19 +16,34 @@ The reportSTR Bot is a telegram bot that aims to help participants track their a
   <tr>
     <td>Starting the bot</td>
     <td>Registering for the event</td>
+  </tr>
+  <tr>
+    <td><img width="100%" alt="image" src="images/start.jpg"></td>
+    <td><img width="100%" alt="image" src="images/register.jpg"></td>
+  </tr>
+  
+  <tr>
     <td>Reporting an activity</td>
     <td>Deleting a reported activity</td>
+  </tr>
+  <tr>
+    <td><img width="100%" alt="image" src="images/reportactivity.jpg"></td>
+    <td><img width="100%" alt="image" src="images/deleteactivity.jpg"></td>
+  </tr>
+
+  <tr>
     <td>Showing the leaderboard</td>
     <td>Checking out the workout for the week</td>
+  </tr>
+  <tr>
+    <td><img width="100%" alt="image" src="images/showleaderboard.jpg"></td>
+    <td><img width="100%" alt="image" src="images/workoutfortheweek.jpg"></td>
+  </tr>
+
+  <tr>
     <td>Quitting the event</td>
   </tr>
   <tr>
-  <td><img width="100%" alt="image" src="images/start.jpg"></td>
-    <td><img width="100%" alt="image" src="images/register.jpg"></td>
-    <td><img width="100%" alt="image" src="images/reportactivity.jpg"></td>
-    <td><img width="100%" alt="image" src="images/deleteactivity.jpg"></td>
-    <td><img width="100%" alt="image" src="images/showleaderboard.jpg"></td>
-    <td><img width="100%" alt="image" src="images/workoutfortheweek.jpg"></td>
     <td>Who says you can quit?</td>
   </tr>
 </table>
